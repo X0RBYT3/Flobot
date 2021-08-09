@@ -30,7 +30,22 @@ def setup(client):
 class Utils(commands.Cog):
     def __init__(self, client):
         self.client = client
-
+    
+    @commands.command()
+    async def ynpoll(self, ctx, *, question):
+        """
+        Asks question & then adds checkmark & "x" as reactions.
+        """
+        ynpoll_embed=discord.Embed(title="Yes/No Poll", description="This is a yes/no poll. Please react with ✅ if yes and ❌ if no.", timestamp=ctx.message.created_at)
+        ynpoll_embed.add_field(name="Poll Question", value=f"{question}", inline=False)
+        ynpoll_embed.set_footer(text=f"Poll By {ctx.author}", icon_url=ctx.author.avatar_url)
+        await ctx.message.delete()
+        message=await ctx.send(embed=ynpoll_embed)
+        emoji_1 = "✅"
+        emoji_2 = "❌"
+        await message.add_reaction(emoji_1)
+        await message.add_reaction(emoji_2)
+    
     @commands.command(name="testborder", aliases=["remindme"])
     async def remind(self, ctx, *, input_str: str = "") -> None:
         """
