@@ -20,7 +20,7 @@ RESPONSES = {
         "Do I have to?",
         "Really? {song}?",
         "Apparently {invoker} has bad taste.",
-        "I wonder if {random} likes this song...",
+        "I wonder if {not_invoker} likes this song...",
     ],
     "skip": [
         "Impatient are we? Fine I'll skip.",
@@ -29,9 +29,9 @@ RESPONSES = {
         "Thank God, I hate {song}.",
         "{invoker} has bad taste.",
         "{invoker} has good taste.",
-        "Gonna have to drink mouthwash after that one",
+        "Gonna have to drink mouthwash after that one.",
     ],
-    "join": ["Woo, {random} is here too!", "Thanks for the invite {invoker}"],
+    "join": ["Woo, {random} is here too!", "Thanks for the invite {invoker}!"],
 }
 
 
@@ -175,9 +175,10 @@ class Music(commands.Cog):
         ctx.voice_state.skip()  # ctx.voice_state.current
         await ctx.send(
             choice(RESPONSES["skip"]).format(
-                invoker=ctx.author.nick,
-                song=ctx.voice_state.current,
-                random=choice(ctx.author.voice.channel.members),
+                invoker = ctx.author.nick,
+                not_invoker = choice([i for i in ctx.author.voice.channel.members if i != invoker]),
+                song = ctx.voice_state.current,
+                random = choice(ctx.author.voice.channel.members),
             )
         )
 
