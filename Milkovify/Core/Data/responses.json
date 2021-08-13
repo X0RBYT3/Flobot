@@ -1,0 +1,39 @@
+{
+	"nochoose": {
+		"_comment": "Keywords: {invoker : Member}.",
+		"eng": [
+			"There's not enough options to choose from."
+		]
+	},
+	"choose": {
+		"_comment": "Keywords: {ctx: commands.Context}. Note this does not include the colon",
+		"eng": [
+			"I choose.",
+			"I choooose",
+			"I have decided",
+			"My opinion is FINAL, I pick",
+			"Can't decide eh {ctx.author.nick}? Fine"
+		]
+	},
+	"play": {
+		"_comment": "Keywords: {song : Song},{ctx: commands.Context},{not_invoker: Member},{listeners: int}",
+		"eng": [
+			"Do I have to?",
+			"Wow you've got bad taste.",
+			"Damn finally some good music.",
+			"Hey everyone, {invoker.nick} has bad taste.",
+			"Psst, {not_invoker.mention}, {ctx.author.nick} smells, pass it on.",
+			"Wow, you gathered {listeners} people in here for THIS."
+		]
+	},
+	"skip": {
+		"_comment": "Keywords: {song : Song},{invoker: Member},{not_invoker: Member},{listeners: int}",
+		"eng": [
+			"Yeah, hard agree, that song sucks.",
+			"HEY! I was listening to that, and so was {not_invoker}!"
+
+		]
+	}
+
+
+}
