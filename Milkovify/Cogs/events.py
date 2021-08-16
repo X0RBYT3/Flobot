@@ -1,11 +1,14 @@
 import json
 import re
+import logging
 
 import discord
 from discord.ext import commands
 
 from Core.Utils.predicates import ReactionPredicate
 from Core.Utils.menus import start_adding_reactions
+
+log = logging.getLogger(__name__)
 
 def is_hex(st):
     if st.lower() in 'abcdef' or st.isdigit():
