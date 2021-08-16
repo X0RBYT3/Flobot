@@ -1,10 +1,12 @@
 from datetime import datetime
 import math
 import decimal
+import logging
 
 from discord.ext import commands, tasks
 import discord
 
+log = logging.getLogger(__name__)
 dec = decimal.Decimal
 
 
@@ -62,4 +64,5 @@ class RandomStuff(commands.Cog):
                     phasename[0], phasename[1]
                 )
             )
+            log.info('Changed phase')
             await self.roosters.edit(name=newname)
