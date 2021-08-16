@@ -1,14 +1,16 @@
+import logging
+
 from discord.ext import commands
 import discord
 
 from Core import permissions
 
-
+log = logging.getLogger(__name__)
 def mod_check(ctx) -> bool:
     """
     We can assume anyone with manage_messages is a mod.
 
-    This should be a decorator.
+    This should be a decorator, but I'm lazy right now.
     """
     if ctx.author.guild_permissions.manage_messages:
         return True
