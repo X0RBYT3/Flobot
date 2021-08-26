@@ -105,7 +105,7 @@ class OwnerCog(commands.Cog):
             return m.channel == ctx.channel and m.author.id == 826933707994169365 and 'successfully' in m.content
 
         try:
-            _ = await ctx.bot.wait_for('message', check=check, timeout=20)
+            _ = await ctx.bot.wait_for('message', check=check, timeout=2)
             # LazyBot responded with success, the command input must be valid then
             userid = int(args[0])
             form = args[1].split('/')
