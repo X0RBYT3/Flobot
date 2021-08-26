@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 from discord.ext import commands
@@ -97,6 +98,38 @@ class OwnerCog(commands.Cog):
             return
         self.client.locked = not self.client.locked
         await ctx.send("Set the lock to: **{0}**".format(self.client.locked))
+
+    @commands.command()
+    async def status(self, ctx: commands.Context, *args):
+        def check(m):
+            return m.channel == ctx.channel and m.author.id == 826933707994169365 and 'successfully' in m.content
+
+        try:
+            _ = await ctx.bot.wait_for('message', check=check, timeout=20)
+            # LazyBot responded with success, the command input must be valid then
+            userid = int(args[0])
+            form = args[1].split('/')
+            if form[0].lower() != 'belts':
+                # Seems like this is some other type of form we don't support yet
+                # Let's just ignore it.
+                return
+            status = args[2].lower() == 'accept'
+
+            belt_channel = ctx.bot.get_channel(827740601054265344)
+            # Loop through the latest 10 submissions until we find one that matches
+            # the command
+            async for submission in belt_channel.history(limit=10):
+                embed = submission.embeds[0]
+                if embed.title.lower().split(' ')[0] == form[1].lower() and str(userid) in embed.description:
+                    if status:
+                        return await submission.add_reaction('✅')
+                    else:
+                        return await submission.add_reaction('❌')
+
+            # We couldn't find the submission. Oh well.
+        except asyncio.TimeoutError:
+            # LazyBot either didn't respond, or didn't like the command, so we likely shouldn't either
+            return
 
 
 def setup(client):
