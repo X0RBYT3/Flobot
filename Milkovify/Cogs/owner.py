@@ -113,7 +113,7 @@ class OwnerCog(commands.Cog):
                 # Seems like this is some other type of form we don't support yet
                 # Let's just ignore it.
                 return
-            status = args[2].lower() == 'accept'
+            status = args[2].lower().startswith('accept')
 
             belt_channel = ctx.bot.get_channel(827740601054265344)
             # Loop through the latest 10 submissions until we find one that matches
