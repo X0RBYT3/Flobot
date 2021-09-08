@@ -1,6 +1,7 @@
 import json
 import re
-import logging
+from datetime import datetime, timedelta
+import time
 
 import discord
 from discord.ext import commands
@@ -10,12 +11,38 @@ from Core.Utils.menus import start_adding_reactions
 
 log = logging.getLogger(__name__)
 
+JOIN_THRESHOLD = 7
+
 def is_hex(st):
     if st.lower() in 'abcdef' or st.isdigit():
         return st
 
 def setup(client):
     client.add_cog(MessageParser(client))
+
+def check_new_account(threshold: int, member: discord.Member):
+    """
+    I wrote this like 2 years ago, improvement probably required.
+    """
+    now = datetime.utcnow()
+    time_string = None
+    account_age = now - member.created_at
+    if account_age < threshold:
+        # 0 = Hours, 1 = Minutes, 2 = Seconds
+        # Super duper hacky.
+        #I hate this
+        time_array = []
+        hms = str(account_age).split(":")
+        if hms[0]:
+            time_array.append(hms[0] + " hours")
+        if hms[1]:
+            time_array.append(hms[1] + " minutes")
+        time_string = ", ".join(time_array)
+
+        emb = discord.Embed(title="**Account made:** {} Ago".format(time_string))
+        emb.set_footer(text="ID: {}".format(member.id), icon_url='https://media.giphy.com/media/qjPD3Me0OCvFC/giphy.gif')
+        return emb, True
+    return None, False
 
 
 class MessageParser(commands.Cog):
@@ -35,6 +62,9 @@ class MessageParser(commands.Cog):
         self.custom_roles = json.load(
             open("roles.json")
         )  # dict of `member.id` : `role.id`
+        self.bye = True
+        self.greet = True
+        self.log_channel = None 
 
     @commands.command(name="rolename", aliases=["rname"])
     async def rolename(self, ctx, *, name: str):
@@ -137,5 +167,29 @@ class MessageParser(commands.Cog):
         return
 
     @commands.Cog.listener()
-    async def on_member_join(self, member: discord.Member):
-        return
+    async def on_member_join(self, member):
+        if self.greet:
+            if self.log_channel is None:
+                self.log_channel = discord.utils.find(
+                    lambda c: c.id == 403340004786569217, # Yeah this is hardcoded.
+                    self.client.get_all_channels())
+            # Let's find if they're NEW
+            # Now let's find their invite.
+            emb, new_acc = check_new_account(
+                timedelta(days=int(JOIN_THRESHOLD)), member)
+        if new_acc:
+            await self.log_channel.send("**<@!{}> has joined!**".format(member.id), embed=emb)
+        elif self.greet:
+            await self.log_channel.send("**<@!{}> has joined!** | `{}`".format(member.id,member.id))
+
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        ### Could do with more detail?
+        if self.bye:
+            if self.log_channel is None:
+                self.log_channel = discord.utils.find(
+                    lambda c: c.id == 403340004786569217,
+                    self.client.get_all_channels())
+            await self.log_channel.send("**{} has left!**".format(member))
+     
+        

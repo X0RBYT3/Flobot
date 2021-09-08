@@ -21,6 +21,14 @@ INTRO = "==========================\nFlobot - V:{0}\n==========================\
 )
 AUDIO_CACHE = os.path.join(os.getcwd(), 'audio_cache')
 
+class MyHelpCommand(commands.MinimalHelpCommand):
+    async def send_pages(self):
+        destination = self.get_destination()
+        e = discord.Embed(color=discord.Color.blurple(), description='')
+        for page in self.paginator.pages:
+            e.description += page
+        await destination.send(embed=e)
+
 def check(ctx):
     if ctx.bot.locked and not ctx.author.guild_permissions.manage_messages:
         return False
@@ -33,6 +41,7 @@ class Client(commands.Bot):
         super().__init__(
             command_prefix=PREFIX, case_insensitive=True
         )
+        self.help_command = MyHelpCommand()
         self.owner_id = OWNER_ID  # Flo
         self.uptime = datetime.now()
         self._version = VERSION
