@@ -31,6 +31,31 @@ class Utils(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    @commands.command(name="poll", aliases=["ynpoll", "pollstart"])
+    async def ynpoll(self, ctx, *, question):
+        """
+        Asks question & then adds checkmark & "x" as reactions.
+        """
+        ynpoll_embed = discord.Embed(
+            title="Yes/No Poll",
+            description="This is a yes/no poll. Please react with ✅ if yes and ❌ if no.",
+            timestamp=ctx.message.created_at,
+        )
+        ynpoll_embed.add_field(
+            name="Poll Question",
+            value=f"{question}",
+            inline=False)
+        ynpoll_embed.set_footer(
+            text=f"Poll By {ctx.author}", icon_url=ctx.author.avatar_url
+        )
+        await ctx.message.delete()
+        message = await ctx.send(embed=ynpoll_embed)
+        emoji_1 = "✅"
+        emoji_2 = "❌"
+        await message.add_reaction(emoji_1)
+        await message.add_reaction(emoji_2)
+  
+
     @commands.command(name="testborder", aliases=["remindme"])
     async def remind(self, ctx, *, input_str: str = "") -> None:
         """
@@ -61,7 +86,7 @@ class Utils(commands.Cog):
             await ctx.send(_("Not enough options to pick from."))
         else:
             await ctx.send("I ch{0}se: ".format("o" * randint(2, 5)) + choice(choices))
-
+    
     @commands.command()
     async def flip(self, ctx, user: discord.Member = None):
         """Flip a coin... or a user.
