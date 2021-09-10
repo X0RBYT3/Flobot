@@ -1,0 +1,7 @@
+youtube_dl==2021.6.6
+async_timeout==3.0.1
+httpx==0.18.2
+colorlog==5.0.1
+discord.py==1.7.3
+beautifulsoup4==4.10.0
+discord==1.7.3
