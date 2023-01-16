@@ -1,6 +1,6 @@
 <!-- Logo and title --> 
 <p align="center"><img alt="Flobot banner" src="https://i.imgur.com/PggdC5I.gif" height=300 width=500></p>
-<h1 align="center">Official Flobot Repo.</h1>
+<h1 align="center">Official Flobot Repo. [DEPRECATED]</h1>
 <h3 align="center">Logo and Profile Picture by DeathByAutoscroll#7617</>
 <br></br>
   
@@ -21,6 +21,6 @@
 <a href="http://makeapullrequest.com" target="_blank"><img src="https://img.shields.io/badge/PRs-welcome-bcentergreen.svg?style=shields" height="20"/>&nbsp;</a>
 
   </p>
-<p align="center">Official Bot of Lazy Devs discord server, Flobot aims to be an i18n compliant music, fun, coding and moderation bot.</p>
-<p align="center">If you have any questions, ask me on Discord: Florence#0256</p>
+<p align="center">Official Bot of Lazy Devs discord server, Flobot aims (aimed) to be an i18n compliant music, fun, coding and moderation bot.</p>
 
+<a href="www.github.com/X0rbyt3/Sakamoto"><p align="center">My current Bot Project</p></a>
